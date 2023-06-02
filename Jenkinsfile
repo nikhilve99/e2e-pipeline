@@ -10,10 +10,11 @@ pipeline {
                 cleanWs()
             }
         }
-    }
+    
          stage('checkout From SCM') {
             steps {
                 git branch: 'main', credentialsId: 'token_key_github', url: 'https://github.com/nikhilve99/e2e-pipeline.git'            
-        }
+            }
+        }   
     }
 }
