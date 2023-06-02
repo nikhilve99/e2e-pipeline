@@ -9,12 +9,21 @@ pipeline {
             steps {
                 cleanWs()
             }
-        }
-    
+        }    
          stage('checkout From SCM') {
             steps {
                 git branch: 'main', credentialsId: 'token_key_github', url: 'https://github.com/nikhilve99/e2e-pipeline.git'            
             }
-        }   
+        } 
+        stage('Build Application') {
+            steps {
+                sh 'mvn clean package'            
+            }
+        }
+        stage('Test Application') {
+            steps {
+                sh 'mvn test'            
+            }
+        }  
     }
 }
