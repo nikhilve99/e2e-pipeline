@@ -49,7 +49,6 @@ pipeline {
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
                 }
             }
-
         }
         stage("ECR login and Build") {
             steps {
@@ -58,7 +57,13 @@ pipeline {
                 sh 'docker tag ${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:v1.${BUILD_NUMBER}'
                 sh 'docker tag ${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:latest'
             }
-
+        }
+        stage("Push Image to ECR") {
+            steps {
+            sh 'docker push ${PROJECT_URL}/${JOB_NAME}:v1.${BUILD_NUMBER}'
+            sh 'docker push ${PROJECT_URL}/${JOB_NAME}:latest'
+            sh 'docker rmi -f ${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:latest'
+            }
         }  
     }
 }
