@@ -49,9 +49,12 @@ pipeline {
             }
 
         }
-        stage("ECR login") {
+        stage("ECR login and Build") {
             steps {
                 sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 444939732285.dkr.ecr.ap-south-1.amazonaws.com'
+                sh 'docker build -t ${JOB_NAME}:v1.${BUILD_NUMBER} .'
+                sh 'docker tag ${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:v1.${BUILD_NUMBER}'
+                sh 'docker tag ${JOB_NAME}:v1.${BUILD_NUMBER} ${PROJECT_URL}/${JOB_NAME}:latest'
             }
 
         }  
