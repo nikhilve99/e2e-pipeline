@@ -4,6 +4,13 @@ pipeline {
         jdk 'Java17'
         maven 'Maven3'
     }
+    environment{
+        APP_NAME = 'e2e-pipeline'
+        RELEASE = '1.0.0'
+        DOCKER_USER = 'test'
+        IMAGE_NAME = '${APP_NAME}' + '/' + '${DOCKER_USER}'
+        IMAGE_TAG = '${RELEASE}:${BUILD_NUMBER}' 
+    }
     stages {
         stage('CleanUp WorkSpace') {
             steps {
@@ -41,6 +48,12 @@ pipeline {
                 }
             }
 
-        } 
+        }
+        stage("ECR login") {
+            steps {
+                sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 444939732285.dkr.ecr.ap-south-1.amazonaws.com'
+            }
+
+        }  
     }
 }
