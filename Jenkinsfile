@@ -9,7 +9,9 @@ pipeline {
         RELEASE = '1.0.0'
         DOCKER_USER = 'test'
         IMAGE_NAME = '${APP_NAME}' + '/' + '${DOCKER_USER}'
-        IMAGE_TAG = '${RELEASE}:${BUILD_NUMBER}' 
+        IMAGE_TAG = '${RELEASE}:${BUILD_NUMBER}'
+        PROJECT_ID ='zipydev'
+        PROJECT_URL ='444939732285.dkr.ecr.ap-south-1.amazonaws.com' 
     }
     stages {
         stage('CleanUp WorkSpace') {
